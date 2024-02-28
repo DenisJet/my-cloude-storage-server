@@ -23,6 +23,11 @@ import { fileStorage } from './storage';
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @Get()
+  findAll() {
+    return this.filesService.findAll();
+  }
+
   @Post()
   @UseInterceptors(FileInterceptor('file', { storage: fileStorage }))
   @ApiConsumes('multipart/form-data')
