@@ -12,12 +12,18 @@ export class FilesService {
     private repository: Repository<FileEntity>,
   ) {}
 
-  // create(createFileDto: CreateFileDto) {
-  //   return 'This action adds a new file';
-  // }
-
   findAll() {
     return this.repository.find();
+  }
+
+  create(file: Express.Multer.File, userId: number) {
+    return this.repository.save({
+      filename: file.filename,
+      originalName: file.originalname,
+      size: file.size,
+      mimetype: file.mimetype,
+      user: { id: userId },
+    });
   }
 
   // findOne(id: number) {
