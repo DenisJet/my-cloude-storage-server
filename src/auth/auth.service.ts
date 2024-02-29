@@ -48,13 +48,13 @@ export class AuthService {
         thisUser.password,
       );
       if (!isPasswordMatching) {
-        throw new ForbiddenException('Wrong credentials provided_1');
+        throw new ForbiddenException('Wrong email or password');
       }
       return {
         token: this.jwtService.sign({ id: thisUser.id }),
       };
     } catch (error) {
-      throw new ForbiddenException('Wrong credentials provided_2');
+      throw new ForbiddenException('Wrong email or password');
     }
   }
 }
