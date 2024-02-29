@@ -46,6 +46,6 @@ export class FilesService {
       userId,
     });
 
-    return qb.softDelete().execute();
+    return qb.delete().execute();
   }
 }
