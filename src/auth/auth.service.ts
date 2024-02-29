@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -23,8 +24,12 @@ export class AuthService {
   }
 
   async register(dto: CreateUserDto) {
+    const hash = await bcrypt.hash(dto.password, 10);
     try {
-      const userData = await this.userService.create(dto);
+      const userData = await this.userService.create({
+        ...dto,
+        password: hash,
+      });
 
       return {
         token: this.jwtService.sign({ id: userData.id }),
@@ -36,8 +41,20 @@ export class AuthService {
   }
 
   async login(user: UserEntity) {
-    return {
-      token: this.jwtService.sign({ id: user.id }),
-    };
+    try {
+      const thisUser = await this.userService.findByEmail(user.email);
+      const isPasswordMatching = await bcrypt.compare(
+        user.password,
+        thisUser.password,
+      );
+      if (!isPasswordMatching) {
+        throw new ForbiddenException('Wrong credentials provided_1');
+      }
+      return {
+        token: this.jwtService.sign({ id: thisUser.id }),
+      };
+    } catch (error) {
+      throw new ForbiddenException('Wrong credentials provided_2');
+    }
   }
 }
