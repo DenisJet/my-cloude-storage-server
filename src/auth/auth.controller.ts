@@ -5,15 +5,15 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { LocalAuthGuard } from './guards/local.guard';
+import { LoginUserDto } from 'src/users/dto/login-user.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiBody({ type: CreateUserDto })
+  @ApiBody({ type: LoginUserDto })
   async login(@Request() req) {
-    console.log(req.body);
     return this.authService.login(req.body);
   }
 
