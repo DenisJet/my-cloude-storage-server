@@ -1,0 +1,10 @@
+version: '3'
+services:
+  todo.server:
+    image: my-cloude-storage-server:latest
+    container_name: my-cloude-storage-server
+    restart: always
+    ports:
+      - 7777:7777
+    volumes:
+      - ./.env:/mytodo-server/.env
