@@ -1,7 +1,7 @@
 version: '3'
 services:
   todo.server:
-    image: my-cloude-storage-server:latest
+    image: ghcr.io/denisjet/my-cloude-storage-server/my-cloude-storage-server:latest
     container_name: my-cloude-storage-server
     restart: always
     ports:
