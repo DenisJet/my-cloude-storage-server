@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:21-alpine
 WORKDIR /my-cloude-storage-server
 ADD package.json package.json
 RUN npm install --legacy-peer-deps
